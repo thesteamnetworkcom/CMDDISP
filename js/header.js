@@ -18,7 +18,10 @@ class Header extends React.Component{
                         Command Prompt Inspired
                     </span>
                     </div>
+                    <span>
+                    <span>About:  </span>
                     <i className="fas fa-caret-square-down" onClick={this.props.switchState}></i>
+                    </span>
                 </div>
             </React.Fragment>
         )

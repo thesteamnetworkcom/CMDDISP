@@ -31,6 +31,7 @@ class LeftPane extends React.Component{
                         </div>
                     : null}
                     <section className='closer' onClick={this.swapOpen}>
+                        <i class={"fas fa-chevron-left " + (this.state.open === true ? "" : "reverse")}></i>
                     </section>
                 </div>
             </React.Fragment>

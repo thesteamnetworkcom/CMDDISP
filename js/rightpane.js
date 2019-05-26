@@ -16,6 +16,7 @@ class RightPane extends React.Component{
             <React.Fragment>
                 <div className={"RightPane " + (this.state.open === true ? "xPane" : "yPane")}>
                     <section className='closer' onClick={this.swapOpen}>
+                        <i className={"fas fa-chevron-right " + (this.state.open === true ? "" : "reverse")}></i>
                     </section>
                     {this.state.open === true ?
                         <React.Fragment>

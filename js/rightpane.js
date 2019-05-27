@@ -28,6 +28,7 @@ class RightPane extends React.Component{
                                     )}
                                 </ul>
                             </div>
+                            <section className='vertical-line'></section>
                             <div className='deck-wrapper'>
                                 <h2>Deck {this.props.state.deck !== null ? "- " + this.props.state.deck.name + (this.props.state.deck.format !== null ? "- " + this.props.state.deck.format : "") : ""}</h2>
                                 <ul className='deck-list'>

@@ -390,6 +390,7 @@ class App extends React.Component{
                         updateQty={this.updateQty}
                     />
                 </div>
+                <Footer />
             </React.Fragment>
         )
     }

@@ -11,7 +11,8 @@ class App extends React.Component{
             cardList:[],
             curList:0,
             deck:null,
-            optionState:false
+            optionState:false,
+            decks:{}
         };
         this.updateQueryList = this.updateQueryList.bind(this);
         this.nextList = this.nextList.bind(this);
@@ -22,6 +23,16 @@ class App extends React.Component{
         this.addCard = this.addCard.bind(this);
         this.removeCard = this.removeCard.bind(this);
         this.updateQty = this.updateQty.bind(this);
+        this.saveDeck = this.saveDeck.bind(this);
+        this.loadDeck = this.loadDeck.bind(this);
+    }
+    componentWillMount(){
+        if(localStorage.hasOwnProperty('currentState')){
+            console.log("CRAP");
+            var newState = JSON.parse(localStorage.getItem('currentState'));
+            this.state=newState;
+            this.setState({});
+        }
     }
     updateQty(e, updateTarget){
         console.log(e);
@@ -31,6 +42,7 @@ class App extends React.Component{
         }else{
             updateTarget.qty = parseInt(e.target.value);
         }
+        localStorage.setItem("currentState", JSON.stringify(this.state));
         this.setState({});
     }
     updateQueryList(queryList,json){
@@ -38,6 +50,7 @@ class App extends React.Component{
         var cardList = [];
         cardList.push(json);
         console.log(queryList);
+        localStorage.setItem("currentState", JSON.stringify(this.state));
         this.setState({
             queries:queryList,
             cardList:cardList,
@@ -159,6 +172,7 @@ class App extends React.Component{
                 });
             }
         }
+        localStorage.setItem("currentState", JSON.stringify(this.state));
         this.setState({
             deck:this.state.deck
         });
@@ -178,6 +192,7 @@ class App extends React.Component{
 
             }
         }
+        localStorage.setItem("currentState", JSON.stringify(this.state));
         this.setState({
             deck:newDeck
         });
@@ -186,6 +201,7 @@ class App extends React.Component{
         console.log(this.state.cardList.length -1);
         console.log(this.state.curList);
         if(this.state.cardList.length - 1 > this.state.curList){
+            localStorage.setItem("currentState", JSON.stringify(this.state));
             this.setState({
                 curList:this.state.curList + 1
             });
@@ -197,6 +213,7 @@ class App extends React.Component{
                 console.log(json);
                 var cardList = this.state.cardList;
                 this.state.cardList.push(json);
+                localStorage.setItem("currentState", JSON.stringify(this.state));
                 this.setState({
                     cardList:cardList,
                     curList:this.state.curList + 1
@@ -208,6 +225,7 @@ class App extends React.Component{
         if(this.state.curList === 0){
             //NO PREV LIST
         }else{
+            localStorage.setItem("currentState", JSON.stringify(this.state));
             this.setState({
                 curList:this.state.curList - 1
             });
@@ -215,6 +233,7 @@ class App extends React.Component{
     }
     switchState(){
         console.log("here");
+        localStorage.setItem("currentState", JSON.stringify(this.state));
         this.setState({
             optionState:!this.state.optionState
         });
@@ -242,12 +261,78 @@ class App extends React.Component{
         .then(json=>{
             var cardList = [];
             cardList.push(json);
+            localStorage.setItem("currentState", JSON.stringify(this.state));
             this.setState({
                 queries:newList,
                 cardList:cardList,
                 curList:0
             });
         });
+    }
+    saveDeck(result){
+        if(this.state.decks.hasOwnProperty(this.state.deck.name)){
+            if(result.hasOwnProperty('flag')){
+                if(result.flag === 'ow'){
+                    this.state.decks[this.state.deck.name] = this.state.deck
+                    localStorage.setItem("currentState", JSON.stringify(this.state));
+                    this.setState({});
+                    return "Deck Saved";
+                }else{
+                    return "Deck Exists Already";
+                }
+            }
+            return "Deck Exists Already";
+        }else{
+            this.state.decks[this.state.deck.name] = (this.state.deck);
+            localStorage.setItem("currentState", JSON.stringify(this.state));
+            this.setState({});
+            return "Deck Saved";
+        }
+    }
+    loadDeck(result){
+        if(!result.hasOwnProperty('name')){
+            return "No Name Provided";
+        }else{
+            if(!this.state.decks.hasOwnProperty(result.name)){
+                return "No Deck By That Name";
+            }else{
+                var newDeck = JSON.parse(JSON.stringify(this.state.decks[result.name]));
+                this.state.deck = newDeck;
+                this.state.queries = [];
+                if(this.state.deck.format !== undefined){
+                    this.state.queries.push({
+                        result:"f:" + this.state.deck.format,
+                        id:Math.floor(Math.random() * Math.floor(1000000))
+                    });
+                    let queryList = this.state.queries;
+                    let fullQuery = "https://api.scryfall.com/cards/search?q=";
+                    for(var i = 0; i < queryList.length; i++){
+                        if(i === 0){
+                            fullQuery=fullQuery+queryList[i].result;
+                        }else{
+                            fullQuery=fullQuery+queryList[i].result;
+                        }
+                    }
+                    fetch(fullQuery)
+                    .then(res=>res.json())
+                    .then(json=>{
+                        var cardList = [];
+                        cardList.push(json);
+                        this.setState({
+                            queries:queryList,
+                            cardList:cardList,
+                            curList:0
+                        });
+                        localStorage.setItem("currentState", JSON.stringify(this.state));
+                    });
+                    return "Deck Loaded...Fetching Format Results";
+                }else{
+                    localStorage.setItem("currentState", JSON.stringify(this.state));
+                    this.setState({});
+                    return "Deck Loaded";
+                }
+            }
+        }
     }
     render(){
         return(
@@ -265,6 +350,8 @@ class App extends React.Component{
                         state={this.state}
                         updateQueryList={(q, j)=>this.updateQueryList(q, j)}
                         newDeck={(n,f)=>this.newDeck(n,f)}
+                        saveDeck={this.saveDeck}
+                        loadDeck={this.loadDeck}
                     />
                     <RightPane
                         state={this.state}

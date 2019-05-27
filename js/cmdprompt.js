@@ -128,21 +128,42 @@ class CmdPrompt extends React.Component{
                         console.log("Save Deck");
                         var newOutput = this.state.output;
                         newOutput.push(this.state.inputString + input);
-                        newOutput.push(this.state.returnString + "Saving Deck");
-                        this.setState({
-                            output:newOutput,
-                            input:""
-                        });
+                        var result2 = this.props.saveDeck(result);
+                        if(result2 === "Deck Exists Already"){
+                            newOutput.push(this.state.returnString + result2 + " add 'flag=ow' to overwrite");
+                            this.setState({
+                                output:newOutput
+                            });
+                        }else{
+                            newOutput.push(this.state.returnString + "Saving Deck");
+                            this.setState({
+                                output:newOutput,
+                                input:""
+                            });
+                        }
+
                         break;
                     case "load":
                         console.log("Load Deck");
                         var newOutput = this.state.output;
                         newOutput.push(this.state.inputString + input);
-                        newOutput.push(this.state.returnString + "Loading Deck");
-                        this.setState({
-                            output:newOutput,
-                            input:""
-                        });
+                        var result2 = this.props.loadDeck(result);
+                        console.log(result2);
+                        if(result2 === "No Name Provided" || result2 === "No Deck By That Name"){
+                            newOutput.push(this.state.returnString + result2 + " add 'name=' corresponding to one of the following decks:");
+                            Object.keys(this.props.state.decks).forEach(function(key){
+                                newOutput.push(this.state.returnString + key);
+                            }.bind(this));
+                            this.setState({
+                                output:newOutput
+                            });
+                        }else{
+                            newOutput.push(this.state.returnString + result2);
+                            this.setState({
+                                output:newOutput,
+                                input:""
+                            });
+                        }
                         break;
                     default:
                         var newOutput = this.state.output;

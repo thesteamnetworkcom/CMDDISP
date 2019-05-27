@@ -24,10 +24,15 @@ class LeftPane extends React.Component{
                                 {console.log(this.props.state.cardList[this.props.state.curList])}
                                 {(this.props.state.cardList[this.props.state.curList] !== undefined && this.props.state.cardList[this.props.state.curList].data !== undefined) ? this.props.state.cardList[this.props.state.curList].data.map(card=>
                                     <React.Fragment>
-                                        <Card data={card} addCard={this.props.addCard} deck={this.props.state.deck}/>
+                                        <Card data={card} addCard={this.props.addCard} deck={this.props.state.deck} switchCardState={this.props.switchCardState}/>
                                     </React.Fragment>
                                 ) : null}
                             </div>
+                            {this.props.state.cardList[this.props.state.curList] !== undefined && this.props.state.cardList[this.props.state.curList].data !== undefined ?
+                                <div className='header-wrapper'>
+                                    <span onClick={this.props.prev}>Prev</span><h2>Cards</h2><span onClick={this.props.next}>Next</span>
+                                </div>
+                            : null}
                         </div>
                     : null}
                     <section className='closer' onClick={this.swapOpen}>

@@ -31,6 +31,9 @@ class Card extends React.Component{
                             <i class="fas fa-plus"></i>
                         </div>
                     </div>
+                    <div className='overlayDisplay' onClick={()=>this.props.switchCardState(this.props.data)}>
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </div>
                 </div>
             </React.Fragment>
         )

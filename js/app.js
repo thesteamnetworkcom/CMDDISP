@@ -12,6 +12,8 @@ class App extends React.Component{
             curList:0,
             deck:null,
             optionState:false,
+            cardDisplayState:false,
+            displayCard:{},
             decks:{}
         };
         this.updateQueryList = this.updateQueryList.bind(this);
@@ -25,6 +27,8 @@ class App extends React.Component{
         this.updateQty = this.updateQty.bind(this);
         this.saveDeck = this.saveDeck.bind(this);
         this.loadDeck = this.loadDeck.bind(this);
+        this.switchCardState=this.switchCardState.bind(this);
+        this.closeCardDisplay = this.closeCardDisplay.bind(this);
     }
     componentWillMount(){
         if(localStorage.hasOwnProperty('currentState')){
@@ -33,6 +37,13 @@ class App extends React.Component{
             this.state=newState;
             this.setState({});
         }
+    }
+    closeCardDisplay(){
+        this.setState({
+            displayCard:{},
+            cardDisplayState:false
+        });
+        var newState = JSON.parse(localStorage.getItem('currentState'));
     }
     updateQty(e, updateTarget){
         console.log(e);
@@ -50,12 +61,12 @@ class App extends React.Component{
         var cardList = [];
         cardList.push(json);
         console.log(queryList);
-        localStorage.setItem("currentState", JSON.stringify(this.state));
         this.setState({
             queries:queryList,
             cardList:cardList,
             curList:0
         });
+        localStorage.setItem("currentState", JSON.stringify(this.state));
     }
     addCard(card, qty){
         //get the type of the card//
@@ -192,10 +203,10 @@ class App extends React.Component{
 
             }
         }
-        localStorage.setItem("currentState", JSON.stringify(this.state));
         this.setState({
             deck:newDeck
         });
+        localStorage.setItem("currentState", JSON.stringify(this.state));
     }
     nextList(){
         console.log(this.state.cardList.length -1);
@@ -233,10 +244,26 @@ class App extends React.Component{
     }
     switchState(){
         console.log("here");
+        this.state.optionState=!this.state.optionState;
+        this.setState({});
         localStorage.setItem("currentState", JSON.stringify(this.state));
-        this.setState({
-            optionState:!this.state.optionState
-        });
+        console.log(localStorage);
+    }
+    switchCardState(card){
+        console.log("switching card state");
+        if(this.state.cardDisplayState === true){
+            this.setState({
+                cardDisplayState:!this.state.cardDisplayState,
+                displayCard:{}
+            });
+            localStorage.setItem("currentState", JSON.stringify(this.state));
+        }else{
+            this.setState({
+                cardDisplayState:!this.state.cardDisplayState,
+                displayCard:card
+            });
+            localStorage.setItem("currentState", JSON.stringify(this.state));
+        }
     }
     removeQuery(key){
         console.log(key);
@@ -248,25 +275,27 @@ class App extends React.Component{
             }
             return e.id !== key;
         });
+        console.log(newList);
         let fullQuery = "https://api.scryfall.com/cards/search?q=";
         for(var i = 0; i < newList.length; i++){
             if(i === 0){
                 fullQuery=fullQuery+newList[i].result;
             }else{
-                fullQuery=fullQuery+newList[i].result;
+                fullQuery=fullQuery+ "+" + newList[i].result;
             }
         }
+        console.log(fullQuery);
         fetch(fullQuery)
         .then(res=>res.json())
         .then(json=>{
             var cardList = [];
             cardList.push(json);
-            localStorage.setItem("currentState", JSON.stringify(this.state));
             this.setState({
                 queries:newList,
                 cardList:cardList,
                 curList:0
             });
+            localStorage.setItem("currentState", JSON.stringify(this.state));
         });
     }
     saveDeck(result){
@@ -340,11 +369,13 @@ class App extends React.Component{
                 <Header switchState={this.switchState} />
                 <div className='root-wrapper'>
                     {this.state.optionState === true ? <OptionPane  /> : null}
+                    {this.state.cardDisplayState === true ? <CardDisplayState card={this.state.displayCard} close={this.closeCardDisplay}/> : null}
                     <LeftPane
                         state={this.state}
                         next={this.nextList}
                         prev={this.prevList}
                         addCard={this.addCard}
+                        switchCardState={this.switchCardState}
                     />
                     <CmdPrompt
                         state={this.state}

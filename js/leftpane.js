@@ -24,7 +24,7 @@ class LeftPane extends React.Component{
                                 {console.log(this.props.state.cardList[this.props.state.curList])}
                                 {(this.props.state.cardList[this.props.state.curList] !== undefined && this.props.state.cardList[this.props.state.curList].data !== undefined) ? this.props.state.cardList[this.props.state.curList].data.map(card=>
                                     <React.Fragment>
-                                        <Card data={card} addCard={()=>this.props.addCard(card, 1)} />
+                                        <Card data={card} addCard={this.props.addCard} deck={this.props.state.deck}/>
                                     </React.Fragment>
                                 ) : null}
                             </div>

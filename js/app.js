@@ -26,7 +26,11 @@ class App extends React.Component{
     updateQty(e, updateTarget){
         console.log(e);
         console.log(e.target.value);
-        updateTarget.qty = e.target.value;
+        if((e.target.value)===''){
+            updateTarget.qty='';
+        }else{
+            updateTarget.qty = parseInt(e.target.value);
+        }
         this.setState({});
     }
     updateQueryList(queryList,json){
@@ -43,6 +47,8 @@ class App extends React.Component{
     addCard(card, qty){
         //get the type of the card//
         //Creature, Enchantment, Artifact, Instand, Sorcery, Land, Planeswalker
+        console.log(card);
+        console.log(qty);
         let types = card.type_line.split(" ");
         console.log(types);
         if(types.includes("Creature")){

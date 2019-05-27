@@ -6,6 +6,9 @@ class Card extends React.Component{
     }
     getQty(){
         let qty=0;
+        if(this.props.deck === null){
+            return qty;
+        }
         for(var key in this.props.deck.cards){
             for(var i = 0; i < this.props.deck.cards[key].length; i++){
                 if(this.props.deck.cards[key][i].card.id === this.props.data.id){

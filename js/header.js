@@ -11,10 +11,10 @@ class Header extends React.Component{
                     <span>
                         Deck Builder -
                     </span>
-                    <span>
+                    <span className='color1'>
                         Scryfall Powered,
                     </span>
-                    <span>
+                    <span className='color2'>
                         Command Prompt Inspired
                     </span>
                     </div>

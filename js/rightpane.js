@@ -35,7 +35,7 @@ class RightPane extends React.Component{
                                         <React.Fragment>
                                             <h3>{cardType}</h3>
                                             {this.props.state.deck.cards[cardType].map(card=>
-                                                <CardSmall data={card} />
+                                                <CardSmall data={card} updateQty={this.props.updateQty}/>
                                             )}
                                         </React.Fragment>
                                     ) : null}

@@ -21,6 +21,13 @@ class App extends React.Component{
         this.removeQuery = this.removeQuery.bind(this);
         this.addCard = this.addCard.bind(this);
         this.removeCard = this.removeCard.bind(this);
+        this.updateQty = this.updateQty.bind(this);
+    }
+    updateQty(e, updateTarget){
+        console.log(e);
+        console.log(e.target.value);
+        updateTarget.qty = e.target.value;
+        this.setState({});
     }
     updateQueryList(queryList,json){
         console.log(json);
@@ -256,6 +263,7 @@ class App extends React.Component{
                     <RightPane
                         state={this.state}
                         removeQuery={this.removeQuery}
+                        updateQty={this.updateQty}
                     />
                 </div>
             </React.Fragment>

@@ -382,3 +382,23 @@ h3{
 pre{
     white-space:pre-wrap;
 }
+.color1{
+    color:#eff2ef;
+}
+.color2{
+    color:#f6ca83;
+}
+input{
+    border:none;
+    background-image:none;
+    background-color:transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    display:inline;
+    width:100%;
+}
+.cardSmall > input{
+    flex:0;
+    min-width:35px;
+}

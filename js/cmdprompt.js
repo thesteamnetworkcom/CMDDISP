@@ -208,7 +208,7 @@ class CmdPrompt extends React.Component{
     render(){
         return(
             <React.Fragment>
-                <div className='cmdprompt-wrapper effect8' onKeyDown={this.handleKeyPress} tabIndex="0">
+                <div className='cmdprompt-wrapper effect8' onKeyDown={this.handleKeyPress} tabIndex="0" contenteditable>
                     <div id="cmdprompt-content" tabindex="-1">
                         <div id="cmdprompt-output">
                             !$~ {this.props.state.intro} ~$!<br/>

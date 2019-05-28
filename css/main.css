@@ -61,6 +61,7 @@ body{
     display:flex;
     height:100%;
     color:#1b1725;
+    flex:1;
 }
 .LeftPane.xPane{
     flex:2;
@@ -202,7 +203,7 @@ body{
 #cmdprompt-output{
     word-break:keep-all;
     word-wrap:normal;
-    white-space:pre-line;;
+    white-space:pre-line;
 }
 #cmdprompt-input{
     display:inline;

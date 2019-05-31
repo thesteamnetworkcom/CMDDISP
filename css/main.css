@@ -91,6 +91,8 @@ body{
 .query-wrapper > h2{
     padding:3px;
     background-color:#eff2ef;
+    text-align:center;
+    font-size:1vw;
 }
 .deck-wrapper{
     padding:5px;
@@ -98,6 +100,8 @@ body{
 .deck-wrapper > h2{
     padding:3px;
     background-color:#eff2ef;
+    text-align:center;
+    font-size:1vw;
 }
 .card-wrapper{
     overflow-y:auto;
@@ -224,10 +228,12 @@ body{
     width:100%;
 }
 h2{
-    text-align:center;
+
+}
+.deck-list > h3{
     font-size:1vw;
 }
-h3{
+.card-small > h3{
     font-size:1vw;
 }
 .optionPane{
@@ -546,4 +552,54 @@ input{
 }
 .social > i{
     margin:4px;
+}
+
+.main-wrapper{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    flex:1;
+}
+.search-section{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    font-family: 'Kodchasan', sans-serif;
+}
+.search-section input{
+
+
+}
+.description-section{
+    height:40%;
+    background-color:#F6CA83;
+
+}
+.block-wrapper input{
+    height:60px;
+    background-color:white;
+    margin-bottom:40px;
+}
+.block-wrapper{
+    display:flex;
+    flex-direction:column;
+    align-content:center;
+    justify-content:center;
+    width:70%;
+}
+.text-wrapping > h1, .text-wrapping > h2, .text-wrapping > h3{
+    margin-bottom:20px;
+}
+.text-wrapping > h1{
+    font-size:4vw;
+}
+.text-wrapping > h2{
+    font-size:2vw;
+    margin-left:20%;
+}
+.text-wrapping > h3{
+    font-size:1vw;
+    margin-left:40%;
 }

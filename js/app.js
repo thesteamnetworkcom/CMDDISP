@@ -366,8 +366,7 @@ class App extends React.Component{
     render(){
         return(
             <React.Fragment>
-                <Header switchState={this.switchState} />
-                <div className='root-wrapper'>
+                <Layout switchState={this.switchState} newPage={this.props.newPage}>
                     {this.state.optionState === true ? <OptionPane  /> : null}
                     {this.state.cardDisplayState === true ? <CardDisplayState card={this.state.displayCard} close={this.closeCardDisplay}/> : null}
                     <LeftPane
@@ -389,14 +388,8 @@ class App extends React.Component{
                         removeQuery={this.removeQuery}
                         updateQty={this.updateQty}
                     />
-                </div>
-                <Footer />
+                </Layout>
             </React.Fragment>
         )
     }
 }
-
-ReactDOM.render(
-    <App />,
-    document.getElementById("root")
-);

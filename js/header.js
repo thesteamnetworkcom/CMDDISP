@@ -18,12 +18,20 @@ class Header extends React.Component{
                         Command Prompt Inspired
                     </span>
                     </div>
+                    <span className='link-item' onClick={()=>this.props.newPage('Home')}>
+                        Home
+                    </span>
+                    <span className='link-item' onClick={()=>this.props.newPage('App')}>
+                        App
+                    </span>
+                    <span className='link-item' onClick={()=>this.props.newPage('Decks')}>
+                        Decks
+                    </span>
                     <span className='byLine'>
                         By: ScottieLew
                     </span>
                     <span>
-                    <span>About:  </span>
-                    <i className="fas fa-caret-square-down" onClick={this.props.switchState}></i>
+                    <span onClick={this.props.switchState}>About</span>
                     </span>
                 </div>
             </React.Fragment>
